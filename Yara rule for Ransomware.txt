@@ -1,0 +1,20 @@
+rule Detect_Ransomware_Distraction {
+    meta:
+        description = "Detects generic ransomware behavior and string patterns used as a distraction"
+        author = "Intern (Allied Software Engineers)"
+        date = "2026-07-13"
+        severity = "Critical"
+
+    strings:
+        // Text strings found inside the malware binary
+        $str1 = "vssadmin.exe delete shadows /all /quiet" nocase // Deletes shadow copies
+        $str2 = "wevtutil.cl" nocase                         // Clear logs string
+        $str3 = ".locked"                                   // Common encrypted file extension
+        
+        // Hex signature for standard Windows Executable (PE File)
+        $pe_magic = { 4D 5A } // "MZ" header
+
+    condition:
+        // Must be a Windows PE file AND must contain at least two of the malicious strings
+        $pe_magic at 0 and (2 of ($str1, $str2, $str3))
+}

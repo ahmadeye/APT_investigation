@@ -1,0 +1,12 @@
+title: UAC Bypass via Fodhelper Registry Modification
+id: 55555555-6666-7777-8888-999999999999
+logsource:
+    product: windows
+    category: registry_event
+detection:
+    selection:
+        TargetObject|contains: 'Software\Classes\ms-settings\Shell\Open\command'
+    condition: selection
+falsepositives:
+    - None known
+level: critical

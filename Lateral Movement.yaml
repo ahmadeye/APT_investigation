@@ -1,0 +1,14 @@
+title: Detect PsExec Lateral Movement Activity
+id: 33333333-4444-4555-6666-777777777777
+logsource:
+    product: windows
+    category: process_creation
+detection:
+    selection:
+        Image|endswith: '\psexec.exe'
+    selection_cmd:
+        CommandLine|contains: ' -accepteula '
+    condition: selection or selection_cmd
+falsepositives:
+    - Legitimate remote administration by domain admins.
+level: high

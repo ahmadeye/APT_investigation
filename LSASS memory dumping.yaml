@@ -1,0 +1,17 @@
+title: Detect LSASS Process Memory Dumping
+id: 22222222-3333-4444-5555-666666666666
+status: experimental
+description: Detects process creation patterns targeting LSASS memory to extract credentials.
+logsource:
+    product: windows
+    category: process_creation
+detection:
+    selection:
+        CommandLine|contains:
+            - 'procdump'
+            - 'lsass'
+            - 'minidump'
+    condition: selection
+falsepositives:
+    - Troubleshooting by IT Admins
+level: critical
